@@ -151,7 +151,7 @@ describe('Bookmarks Endpoints', function () {
     });
   });
 
-  describe.only(`POST /bookmarks`, () => {
+  describe(`POST /bookmarks`, () => {
     it(`creates a bookmark, responding with 201 and the new bookmark`, () => {
       const newBookmark = {
         title: 'test-title',
@@ -242,7 +242,10 @@ describe('Bookmarks Endpoints', function () {
           .set('Authorization', `Bearer ${API_TOKEN}`)
           .expect(204)
           .then((res) =>
-            supertest(app).get(`/bookmarks`).expect(expectedBookmarks)
+            supertest(app)
+              .get(`/bookmarks`)
+              .set('Authorization', `Bearer ${API_TOKEN}`)
+              .expect(expectedBookmarks)
           );
       });
     });

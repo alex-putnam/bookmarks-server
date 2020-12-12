@@ -24,7 +24,7 @@ bookmarksRouter
       })
       .catch(next);
   })
-  .post(bodyParser, (req, res) => {
+  .post(bodyParser, (req, res, next) => {
     for (const field of ['title', 'url', 'rating']) {
       if (!req.body[field]) {
         logger.error(`${field} is required`);
@@ -87,7 +87,7 @@ bookmarksRouter
   .delete((req, res, next) => {
     const { bookmark_id } = req.params;
     BookmarksService.deleteBookmark(req.app.get('db'), bookmark_id)
-      .then((numRowsAffected) => {
+      .then(() => {
         logger.info(`Bookmark with id ${bookmark_id} deleted.`);
         res.status(204).end();
       })
